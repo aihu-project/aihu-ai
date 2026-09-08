@@ -1,0 +1,25 @@
+{
+  "only": ["ts", "json", "md", "txt"],
+  "exclude": ["dist", "node_modules", "coverage", ".git", "bun.lock"],
+  "depth": 5,
+  "routing": {
+    "subsystems": {
+      "provider-adapters": {
+        "paths": ["src", "tests/ai.test.ts", "package.json"],
+        "keywords": ["ReadableStream", "fromOpenAI", "fromAnthropic", "fromGemini", "fromResponse"],
+        "docs": ["README.md", "docs/stream-impl.md"],
+        "note": "Provider event shapes are type-only SDK boundaries; Codemap cannot infer that optional peer packages must remain absent from the runtime bundle."
+      },
+      "release-contract": {
+        "paths": [
+          "package.json",
+          "scripts/check-release-version.ts",
+          ".github/workflows/release.yml"
+        ],
+        "keywords": ["NPM_TOKEN", "RELEASE_TAG", "npm publish", "check:release-version"],
+        "docs": ["README.md"],
+        "note": "The published tag, package version, and registry provenance form a string-matching release contract that has no import edge."
+      }
+    }
+  }
+}
