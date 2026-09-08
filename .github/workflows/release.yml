@@ -20,6 +20,9 @@ jobs:
     name: Verify and publish @aihu/ai
     runs-on: ubuntu-22.04
     timeout-minutes: 20
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -57,7 +60,7 @@ jobs:
           if npm view "${package_name}@${package_version}" version --registry "$NPM_REGISTRY" >/dev/null 2>"$view_error"; then
             echo "${package_name}@${package_version} is already published; skipping"
           elif grep -Eq 'E404|404 Not Found' "$view_error"; then
-            npm publish --access public --registry "$NPM_REGISTRY"
+            npm publish --access public --provenance --registry "$NPM_REGISTRY"
           else
             cat "$view_error"
             exit 1

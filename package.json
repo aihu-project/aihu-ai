@@ -20,10 +20,12 @@
   "sideEffects": false,
   "scripts": {
     "build": "rolldown -c",
+    "lint": "biome ci .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "check:release-version": "bun scripts/check-release-version.ts",
-    "check:ci": "bunx biome ci . && bun run typecheck && bun run test && bun run build && npm pack --dry-run",
+    "check:packed-manifest": "bun scripts/check-packed-manifest.ts",
+    "check:ci": "bun run lint && bun run typecheck && bun run test && bun run build && bun run check:packed-manifest",
     "prepublishOnly": "bun run build"
   },
   "peerDependencies": {
@@ -56,7 +58,7 @@
     "url": "git+https://github.com/aihu-project/aihu-ai.git"
   },
   "homepage": "https://github.com/aihu-project/aihu-ai#readme",
-  "bugs": "https://github.com/aihu-project/aihu/issues",
+  "bugs": "https://github.com/aihu-project/aihu-ai/issues",
   "publishConfig": {
     "access": "public"
   }
