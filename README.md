@@ -9,7 +9,30 @@ aihu `$stream` collection. The package has no runtime dependency on another
 `@aihu/*` package and does not bundle any provider SDK.
 
 <!-- BEGIN_HANDWRITTEN: prose -->
-_(Hand-written prose lives in this block. Replace this placeholder; everything below is auto-generated.)_
+Each adapter takes a provider's native stream and returns a plain
+`ReadableStream<string>` of text deltas, ready to feed an aihu `$stream`
+collection:
+
+```ts
+import { fromAnthropic, fromGemini, fromOpenAI, fromResponse } from '@aihu/ai'
+
+// Anthropic SDK message stream
+const anthropicText = fromAnthropic(await anthropic.messages.stream({ ... }))
+
+// OpenAI SDK chat-completion stream
+const openaiText = fromOpenAI(await openai.chat.completions.create({ stream: true, ... }))
+
+// Google Generative AI stream
+const geminiText = fromGemini(await model.generateContentStream({ ... }))
+
+// Any fetch() Response with a body (no provider SDK required)
+const responseText = fromResponse(await fetch('/api/stream'))
+```
+
+`fromAnthropic`, `fromGemini`, and `fromOpenAI` import their SDK's types with
+`import type` only, so the corresponding peer dependency need not be
+installed unless that adapter is actually used. `fromResponse` has no SDK
+dependency at all.
 <!-- END_HANDWRITTEN: prose -->
 
 ## Install
